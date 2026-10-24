@@ -6,7 +6,7 @@
 >
 > 阅读建议：按顺序看，每节都能单独看懂。遇到陌生词先跳到 [术语对照表](#附录术语对照表) 查，那张表把每个技术词都翻成了日常说法。
 >
-> **关于图**：本文用 [Mermaid](https://mermaid.js.org/) 画图。GitHub / GitLab / VS Code（装 Markdown Preview Mermaid 插件）/ Typora 都能直接渲染；如果你的编辑器显示成代码块，用预览模式打开即可。
+> **关于图**：13 张图都是手写的 **SVG**，放在 `docs/assets/`。统一设计：圆角卡片、语义配色（蓝=你、青=程序、紫=AI、绿=文件系统、红=坑），代码用等宽字体，数据流用流动虚线标出，并带 `prefers-reduced-motion` 保护。文本都是原生 `<text>`，GitHub / GitLab / VS Code / Typora 直接可看，不依赖任何插件。要改图：编辑 `docs/assets/figures.py` 里的坐标/文案，然后 `python docs/assets/figures.py` 重新生成；纯手改 `.svg` 也行。
 
 ---
 
@@ -75,25 +75,9 @@ AI：  哦，那目录里就一个 Python 文件              ← 它据此继�
 
 ### 三方关系：谁碰得到硬盘，谁碰不到
 
-```mermaid
-flowchart LR
-    U(["你"]):::user
-    N["nanocode.py<br/>本地进程<br/>（有手）"]:::local
-    A["AI 模型<br/>云端<br/>（只有嘴）"]:::cloud
-    F[("你的文件系统<br/>+ shell")]:::disk
-
-    U -->|"键盘输入"| N
-    N -->|"HTTP：全部历史 + 工具菜单"| A
-    A -->|"content blocks：<br/>文字 / tool_use"| N
-    N -->|"真正执行 read / write /<br/>glob / grep / bash"| F
-    F -->|"结果字符串"| N
-    N -->|"打印"| U
-
-    classDef user fill:#e3f2fd,stroke:#1976d2,color:#000
-    classDef local fill:#e8f5e9,stroke:#388e3c,color:#000
-    classDef cloud fill:#fff3e0,stroke:#f57c00,color:#000
-    classDef disk fill:#f3e5f5,stroke:#7b1fa2,color:#000
-```
+<p align="center">
+  <img src="assets/01-roles.svg" width="760" alt="三方关系：谁碰得到硬盘，谁碰不到" style="max-width:100%">
+</p>
 
 **盯住一个细节**：从 AI 出来的箭头只有一条，只通向程序，永远不直接通向文件系统。
 
@@ -123,31 +107,9 @@ while True:                          # 一圈一圈转
 
 画成流程图，是一个带回头箭头的判断：
 
-```mermaid
-flowchart TD
-    S(["等你输入 ❯"]):::io
-    P["messages 追加<br/>role=user：你说的话"]:::step
-    C["call_api<br/>发：全部历史 + 工具菜单"]:::net
-    R["拿到 response.content<br/>（一个 block 列表）"]:::step
-    T{"列表里有<br/>tool_use 块吗？"}:::judge
-    E["执行工具 run_tool<br/>打包成 tool_result"]:::work
-    H["messages 追加两条：<br/>① assistant 原始块<br/>② user 工具结果"]:::step
-    D(["这轮回答结束"]):::done
-
-    S --> P --> C --> R --> T
-    T -->|"有 → 还要干活"| E
-    E --> H
-    H -->|"不看输出，直接再问一次"| C
-    T -->|"没有 → 只想说话"| D
-    D -->|"下一句话"| S
-
-    classDef io fill:#e3f2fd,stroke:#1976d2,color:#000
-    classDef step fill:#e8f5e9,stroke:#388e3c,color:#000
-    classDef net fill:#fff3e0,stroke:#f57c00,color:#000
-    classDef judge fill:#fff9c4,stroke:#f9a825,color:#000
-    classDef work fill:#ede7f6,stroke:#5e35b1,color:#000
-    classDef done fill:#fce4ec,stroke:#c2185b,color:#000
-```
+<p align="center">
+  <img src="assets/02-main-loop.svg" width="700" alt="主循环流程图：那个圈怎么转" style="max-width:100%">
+</p>
 
 > 🔑 **核心箭头只有两个**：`有 tool_use → 干活 → 回到 call_api`（自环），和 `没有 tool_use → 结束`（出口）。
 > 其余 270 行代码，都是为了支撑这两条箭头。
@@ -180,24 +142,9 @@ for block in blocks:
 
 这个 `for` 循环本质上是个**分拣台**：
 
-```mermaid
-flowchart LR
-    R["response.content<br/>（block 列表）"]:::src --> F["for block in blocks"]:::loop
-
-    F --> X{"block.type ?"}:::judge
-    X -->|"text"| T1["打印到屏幕<br/>⏺ 我先看看有什么文件"]:::out
-    X -->|"tool_use"| T2["run_tool(name, input)<br/>真正干活"]:::work
-    T2 --> T3["tool_results.append(...)<br/>攒着，稍后一起发回"]:::store
-    X -->|"其他类型"| T4["忽略<br/>（本程序不处理）"]:::ignore
-
-    classDef src fill:#e3f2fd,stroke:#1976d2,color:#000
-    classDef loop fill:#e8f5e9,stroke:#388e3c,color:#000
-    classDef judge fill:#fff9c4,stroke:#f9a825,color:#000
-    classDef out fill:#fce4ec,stroke:#c2185b,color:#000
-    classDef work fill:#ede7f6,stroke:#5e35b1,color:#000
-    classDef store fill:#fff3e0,stroke:#f57c00,color:#000
-    classDef ignore fill:#eeeeee,stroke:#9e9e9e,color:#000
-```
+<p align="center">
+  <img src="assets/03-block-dispatch.svg" width="820" alt="content 块分拣图" style="max-width:100%">
+</p>
 
 **一句话记住**：列表里出现 `type == "tool_use"` 的项，就是要干活；一个都没有，就是纯聊天，停。
 
@@ -267,29 +214,9 @@ messages.append({"role": "user", "content": tool_results})
 
 **为什么 `tool_use_id` 必须对上 —— 一次调三个工具的情况：**
 
-```mermaid
-flowchart LR
-    subgraph REQ["AI 一口气提出 3 个请求（同一轮）"]
-        direction TB
-        A1["tool_use<br/>id = toolu_A1<br/>glob *.py"]
-        A2["tool_use<br/>id = toolu_A2<br/>read main.py"]
-        A3["tool_use<br/>id = toolu_A3<br/>bash pytest"]
-    end
-
-    subgraph RES["程序返回 3 条结果（顺序可乱）"]
-        direction TB
-        B1["tool_result<br/>tool_use_id = toolu_A1<br/>nanocode.py"]
-        B2["tool_result<br/>tool_use_id = toolu_A2<br/>import os..."]
-        B3["tool_result<br/>tool_use_id = toolu_A3<br/>3 passed"]
-    end
-
-    A1 -. "id 配对" .-> B1
-    A2 -. "id 配对" .-> B2
-    A3 -. "id 配对" .-> B3
-
-    style REQ fill:#e3f2fd,stroke:#1976d2,color:#000
-    style RES fill:#e8f5e9,stroke:#388e3c,color:#000
-```
+<p align="center">
+  <img src="assets/04-tool-use-id-pairing.svg" width="800" alt="tool_use_id 叫号配对图" style="max-width:100%">
+</p>
 
 > 💡 **为什么要编号？** 就像食堂叫号取餐：不喊号的话，三份餐摆在那谁都不敢拿。
 
@@ -317,27 +244,9 @@ messages = [
 
 **下面这张时序图，重点看「程序 → AI」那几根箭头上挂的内容：一次比一次长。** 这就是「整个重发」：
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant U as 你
-    participant N as 程序
-    participant AI as AI（无状态）
-
-    U->>N: "有什么文件?"
-    Note over N: messages = [① user]
-    N->>AI: 发 ①
-    AI-->>N: [text, tool_use A1]
-    Note over N: messages = [① user, ② assistant]
-    N->>N: 执行 glob → "nanocode.py"
-    Note over N: messages = [① user, ② assistant, ③ user:结果]
-    N->>AI: 发 ①②③（① 又来一遍）
-    AI-->>N: [text] 纯文字
-    Note over N: messages = [①②③, ④ assistant]
-    N->>U: 打印回答
-
-    Note over AI: 每次都是「第一次见面」<br/>不给全历史 = 完全失忆
-```
+<p align="center">
+  <img src="assets/05-history-resend.svg" width="840" alt="历史累积时序图：为什么每轮都要整个重发" style="max-width:100%">
+</p>
 
 > 💡 **看出来了吗**：第三次发出去时，第 1 条被**重复发送**了。看起来浪费，但这是 API 无状态设计的必然代价 —— 也是程序简单的来源：不需要在本地维护任何「AI 记得什么」的状态。
 
@@ -353,37 +262,11 @@ sequenceDiagram
 
 六个工具形状完全一致 —— **进去是参数，出来是字符串，中间无论怎么炸都不会漏到外面**：
 
-```mermaid
-flowchart TD
-    IN["AI 说：<br/>{name: 'glob', input: {pat: '*.py'}}"]:::req
-    RT{"run_tool()<br/>try / except"}:::gate
+<p align="center">
+  <img src="assets/06-tool-contract.svg" width="800" alt="工具统一契约图：六个工具的共同形状" style="max-width:100%">
+</p>
 
-    RT -->|"name == 'read'"| F1["read"]:::fn
-    RT -->|"name == 'write'"| F2["write"]:::fn
-    RT -->|"name == 'edit'"| F3["edit"]:::fn
-    RT -->|"name == 'glob'"| F4["glob"]:::fn
-    RT -->|"name == 'grep'"| F5["grep"]:::fn
-    RT -->|"name == 'bash'"| F6["bash"]:::fn
-
-    F1 --> OUT["统一返回一个字符串"]:::res
-    F2 --> OUT
-    F3 --> OUT
-    F4 --> OUT
-    F5 --> OUT
-    F6 --> OUT
-    RT -->|"任何异常"| ERR["error: 找不到 xxx.py<br/>（也是字符串）"]:::err
-    ERR --> OUT
-
-    OUT --> BACK["塞进 tool_result.content<br/>喂回给 AI 自我纠正"]:::res
-
-    classDef req fill:#e3f2fd,stroke:#1976d2,color:#000
-    classDef gate fill:#fff9c4,stroke:#f9a825,color:#000
-    classDef fn fill:#ede7f6,stroke:#5e35b1,color:#000
-    classDef res fill:#e8f5e9,stroke:#388e3c,color:#000
-    classDef err fill:#ffebee,stroke:#c62828,color:#000
-```
-
-**这张图的第二个重点是那条「任何异常」的箭头**：失败不会让程序退出，而是绕个弯变成一条**同样是字符串**的结果。对 AI 来说，「成功的结果」和「失败的结果」长得一样，都得读一遍 —— 于是它就学会了自我纠正。
+**这张图的第二个重点是那条「任何异常」的虚线箭头**：失败不会让程序退出，而是绕个弯变成一条**同样是字符串**的结果（虚线框那个节点）。对 AI 来说，「成功的结果」和「失败的结果」长得一样，都得读一遍 —— 于是它就学会了自我纠正。
 
 没有任何工具会把异常抛到外面 —— 全部在 `run_tool` 里兜住（见 [3.3](#33-run_tool-唯一的异常出口)）。
 
@@ -408,6 +291,12 @@ def read(args):
 4. 拼成一个字符串返回
 
 **`offset` / `limit` 到底切哪几行**（`offset=2, limit=3` 的例子）：
+
+<p align="center">
+  <img src="assets/07-read-slice.svg" width="760" alt="read 切片示意图：offset / limit 切哪几行" style="max-width:100%">
+</p>
+
+对应到具体每一行（**虚线框 = 未选中，粗实线框 = 选中**）：
 
 | i | 原文件内容 | 选中？ | 输出 |
 |---|---|---|---|
@@ -482,35 +371,11 @@ def edit(args):
 
 画成决策树，就是这个岔路 —— **只有一条路能走到「写文件」**：
 
-```mermaid
-flowchart TD
-    A["收到 {path, old, new, all?}"]:::in
-    B{"old 在文件里吗？"}:::j
-    C["return<br/>'error: old_string not found'<br/>❌ 不写文件"]:::err
-    D{"出现几次？"}:::j
-    E{"all=true ?"}:::j
-    F["return<br/>'error: appears N times,<br/>must be unique (use all=true)'<br/>❌ 不写文件"]:::err
-    G["text.replace(old, new)<br/>全部替换"]:::ok
-    H["text.replace(old, new, 1)<br/>只换第一处"]:::ok
-    I["写回文件<br/>return 'ok'"]:::ok
+<p align="center">
+  <img src="assets/08-edit-decision.svg" width="900" alt="edit 唯一性判定决策树" style="max-width:100%">
+</p>
 
-    A --> B
-    B -->|"找不到"| C
-    B -->|"找到了"| D
-    D -->|"1 次（唯一）"| H
-    D -->|"> 1 次"| E
-    E -->|"是"| G
-    E -->|"否"| F
-    G --> I
-    H --> I
-
-    classDef in fill:#e3f2fd,stroke:#1976d2,color:#000
-    classDef j fill:#fff9c4,stroke:#f9a825,color:#000
-    classDef err fill:#ffebee,stroke:#c62828,color:#000
-    classDef ok fill:#e8f5e9,stroke:#388e3c,color:#000
-```
-
-**注意红色那两条死路 —— 这就是 `edit` 比 `write` 安全的原因**：宁可报错让 AI 重试，也绝不在「不确定改哪一处」的情况下动手写盘。
+**注意那两条标了 ❌ 的虚线死路 —— 这就是 `edit` 比 `write` 安全的原因**：宁可报错让 AI 重试，也绝不在「不确定改哪一处」的情况下动手写盘。
 
 **为什么必须唯一？**
 
@@ -746,26 +611,9 @@ def make_schema():
 
 **把它看成一条流水线，数据每过一站就变一次形：**
 
-```mermaid
-flowchart LR
-    A["① TOOLS 里的一行<br/>（人写的紧凑格式）"]:::s1
-    B["② 拆开三元组<br/>description / params / fn"]:::s2
-    C["③ 逐个参数处理<br/>'number?' → integer + 可选<br/>'string'  → string + 必填"]:::s3
-    D["④ 组装 input_schema<br/>{type, properties, required}"]:::s4
-    E["⑤ 塞进 API 请求的 'tools'<br/>AI 读这份菜单"]:::s5
-
-    A --> B --> C --> D --> E
-
-    A -.- A2["('Read file...',<br/>{path:'string',<br/>offset:'number?'}, read)"]:::note
-    D -.- D2["properties: {path:{type:string},<br/>offset:{type:integer}}<br/>required: ['path']"]:::note
-
-    classDef s1 fill:#e3f2fd,stroke:#1976d2,color:#000
-    classDef s2 fill:#e8f5e9,stroke:#388e3c,color:#000
-    classDef s3 fill:#fff9c4,stroke:#f9a825,color:#000
-    classDef s4 fill:#fff3e0,stroke:#f57c00,color:#000
-    classDef s5 fill:#ede7f6,stroke:#5e35b1,color:#000
-    classDef note fill:#fafafa,stroke:#9e9e9e,color:#000
-```
+<p align="center">
+  <img src="assets/09-schema-pipeline.svg" width="880" alt="schema 转换流水线" style="max-width:100%">
+</p>
 
 **为什么要费这劲？** 因为 API 只认标准 JSON Schema。但手写 6 个工具的 JSON 又长又容易错，还不如写这张小表，自动转。
 
@@ -843,27 +691,9 @@ def call_api(messages, system_prompt):
 
 **一个环境变量，决定整条链路走向：**
 
-```mermaid
-flowchart TD
-    ENV{"环境变量里有<br/>OPENROUTER_API_KEY 吗？"}:::j
-
-    ENV -->|"有"| OR["API_URL =<br/>openrouter.ai/api/v1/messages<br/>MODEL 默认 =<br/>anthropic/claude-opus-4.5"]:::or
-    ENV -->|"没有"| AN["API_URL =<br/>api.anthropic.com/v1/messages<br/>MODEL 默认 =<br/>claude-opus-4-5"]:::an
-
-    OR --> H1["Header：<br/>Authorization: Bearer xxx"]:::h
-    AN --> H2["Header：<br/>x-api-key: xxx"]:::h
-
-    H1 --> BODY["同一个 body 结构<br/>{model, system, messages, tools}"]:::body
-    H2 --> BODY
-    BODY --> CALL["urlopen → json.loads<br/>返回同样的 {'content': [...]}"]:::call
-
-    classDef j fill:#fff9c4,stroke:#f9a825,color:#000
-    classDef or fill:#e3f2fd,stroke:#1976d2,color:#000
-    classDef an fill:#fce4ec,stroke:#c2185b,color:#000
-    classDef h fill:#ede7f6,stroke:#5e35b1,color:#000
-    classDef body fill:#e8f5e9,stroke:#388e3c,color:#000
-    classDef call fill:#fff3e0,stroke:#f57c00,color:#000
-```
+<p align="center">
+  <img src="assets/10-backend-switch.svg" width="780" alt="后端切换分支图" style="max-width:100%">
+</p>
 
 > 💡 **注意两条分支最后汇到同一个 body**。这是整个设计能成立的前提：OpenRouter 的 `/v1/messages` 端点兼容 Anthropic 格式，所以 `main()` 里那几十行代码**完全不用关心后端是谁** —— 分支只在这里出现一次。
 
@@ -935,50 +765,11 @@ def main():
             messages.append({"role": "user", "content": tool_results})
 ```
 
-**嵌套结构长这样 —— 三个圈，大的包小的：**
+**嵌套结构长这样 —— 三个圈，大的包小的（框套框，一眼看出谁包谁）：**
 
-```mermaid
-flowchart TD
-    subgraph L1["① 外层 while —— 管「一轮对话」 结束于：/q 或 Ctrl+C"]
-        direction TB
-        IN["input(❯ ) 等你输入"]:::io
-        CHK{"是 /q 或 exit ?"}:::j
-        QUIT(["break → 退出程序"]):::out
-        APP1["messages += user 你说的话"]:::step
-
-        subgraph L2["② 内层 while —— 管「一次回答」 结束于：AI 不再要工具"]
-            direction TB
-            CA["call_api(messages)"]:::net
-
-            subgraph L3["③ for block —— 管「本轮每个块」 结束于：块遍历完"]
-                direction TB
-                B1["text → 打印"]:::s
-                B2["tool_use → run_tool<br/>→ 攒 tool_result"]:::s
-            end
-
-            CA --> B1
-            CA --> B2
-            B1 --> APP2
-            B2 --> APP2
-            APP2 --> JUD{"tool_results 空?"}:::j
-            JUD -->|"不空 → 继续转"| APP3["messages += user 工具结果"]:::step
-            APP3 --> CA
-        end
-
-        IN --> CHK
-        CHK -->|"是"| QUIT
-        CHK -->|"否"| APP1
-        APP1 --> CA
-        JUD -->|"空 → 这轮完了"| IN
-    end
-
-    classDef io fill:#e3f2fd,stroke:#1976d2,color:#000
-    classDef j fill:#fff9c4,stroke:#f9a825,color:#000
-    classDef out fill:#ffebee,stroke:#c62828,color:#000
-    classDef step fill:#e8f5e9,stroke:#388e3c,color:#000
-    classDef net fill:#fff3e0,stroke:#f57c00,color:#000
-    classDef s fill:#ede7f6,stroke:#5e35b1,color:#000
-```
+<p align="center">
+  <img src="assets/11-nested-loops.svg" width="850" alt="三层嵌套结构图：三个 while / for 谁管谁" style="max-width:100%">
+</p>
 
 **三个层次：**
 
@@ -1014,33 +805,9 @@ messages.append({"role": "user",      "content": tool_results})    # 工具结�
 
 这张图把「谁在什么时候做什么」按时间从左到右排开，四条泳道分别是**你**、**程序**、**文件系统**、**AI**：
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant U as 你
-    participant N as 程序（本地）
-    participant FS as 文件系统
-    participant AI as AI（云端）
-
-    U->>N: what files are here?
-    N->>N: messages += {user: 问题}
-    N->>AI: ① 请求（历史 + 菜单）
-    AI-->>N: [text "我先看看", tool_use glob]
-
-    N->>U: 打印 ⏺ 我先看看
-    N->>FS: glob ./*.py
-    FS-->>N: ["nanocode.py"]
-    N->>U: 打印 ⏺ Glob(*.py) → nanocode.py
-
-    N->>N: messages += {assistant: 原始块}
-    N->>N: messages += {user: tool_result}
-    N->>AI: ② 请求（历史变长了）
-    AI-->>N: [text "就一个 Python 文件"]
-
-    N->>U: 打印 ⏺ 就一个 Python 文件
-    Note over N: 没有 tool_use → break
-    N->>N: 等下一句话
-```
+<p align="center">
+  <img src="assets/12-full-sequence.svg" width="900" alt="全流程泳道图：一次提问的完整来回" style="max-width:100%">
+</p>
 
 ### 6.2 文字版总图
 
@@ -1113,19 +880,10 @@ proc.wait(timeout=30)               # ← 超时检查写在这里，永远走�
 
 **为什么会死在那儿 —— 看这个时序：**
 
-```mermaid
-sequenceDiagram
-    participant P as bash()
-    participant C as 子进程 sleep 100
+<p align="center">
+  <img src="assets/13-bash-timeout-bug.svg" width="820" alt="bash 超时 bug 时序图" style="max-width:100%">
+</p>
 
-    P->>C: Popen("sleep 100")
-    P->>C: proc.stdout.readline()
-    Note over P,C: ⛔ 子进程 100 秒内不输出任何东西<br/>readline() 在这里无限阻塞
-    Note over P: 代码卡在这一行，<br/>永远走不到下一行
-    Note over P: proc.wait(timeout=30)<br/>❌ 从未被执行
-    Note over P,C: …… 100 秒后子进程结束<br/>readline() 才返回空串 → break
-    P->>P: 此时才轮到 wait()<br/>但进程早就结束了，超时毫无意义
-```
 
 **根本原因**：`timeout` 参数只作用在「等进程退出」上，**管不了「等一行输出」**。而 `readline()` 恰恰是在等输出。
 

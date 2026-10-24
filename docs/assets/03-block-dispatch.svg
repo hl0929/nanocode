@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="1000" height="520" role="img" aria-label="content 块分拣图" style="background:#ffffff;max-width:100%;height:auto">
+<title>content 块分拣图</title><desc>一个 response.content 列表，按 block['type'] 分流到三个出口。</desc>
+<style>
+text { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; fill: #0f172a; }
+.mono { font-family: ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace; }
+.node rect.box, .node ellipse, .node polygon { filter: url(#soft); }
+.flow { stroke-dasharray: 4 16; animation: flow 1.1s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -20; } }
+@media (prefers-reduced-motion: reduce) {
+  .flow { animation: none; }
+}
+</style>
+<defs>
+<pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1.4" cy="1.4" r="1.05" fill="#e2e8f0"/></pattern>
+<filter id="soft" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.9" flood-color="#0f172a" flood-opacity="0.10"/></filter>
+</defs><rect width="1000" height="520" fill="#ffffff"/><rect width="1000" height="520" fill="url(#dots)"/>
+<g class="node"><rect class="box" x="360.0" y="56.0" width="280.0" height="62.0" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.6" filter="url(#soft)"/>
+<text x="500.0" y="81.6" text-anchor="middle" font-size="13.5" font-weight="600" fill="#6d28d9">response.content</text>
+<text x="500.0" y="101.8" text-anchor="middle" font-size="13.5" font-weight="400" fill="#475569">（block 列表）</text>
+</g>
+<g class="node"><rect class="box" x="340.0" y="162.0" width="320.0" height="54.0" rx="12" fill="#ecfeff" stroke="#0891b2" stroke-width="1.6" filter="url(#soft)"/>
+<text x="500.0" y="183.6" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0e7490">for block in blocks</text>
+<text x="500.0" y="203.8" text-anchor="middle" font-size="13.5" font-weight="400" fill="#475569">逐个看每个块</text>
+</g>
+<g class="node"><polygon class="box" points="500.0,240.0 618.0,300.0 500.0,360.0 382.0,300.0" fill="#ffffff" stroke="#64748b" stroke-width="1.6" filter="url(#soft)"/>
+<text x="500.0" y="304.7" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0f172a">block['type']</text>
+</g>
+<marker id="arw-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#7c3aed"/></marker>
+<path d="M 500.0 118.0 L 500.0 162.0" fill="none" stroke="#7c3aed" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" marker-end="url(#arw-ai)"/>
+<path d="M 500.0 118.0 L 500.0 162.0" fill="none" stroke="#f5f3ff" stroke-width="1.4" stroke-linecap="round" opacity=".95" class="flow"/>
+<marker id="arw-proc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#0891b2"/></marker>
+<path d="M 500.0 216.0 L 500.0 240.0" fill="none" stroke="#0891b2" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" marker-end="url(#arw-proc)"/>
+<path d="M 500.0 216.0 L 500.0 240.0" fill="none" stroke="#ecfeff" stroke-width="1.4" stroke-linecap="round" opacity=".95" class="flow"/>
+<path d="M 500.0 360.0 L 500.0 388.0" fill="none" stroke="#64748b" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00"/>
+<path d="M 170 388 L 830 388" stroke="#94a3b8" stroke-width="1.6" stroke-linecap="round"/>
+<marker id="arw-user" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/></marker>
+<path d="M 170.0 388.0 L 170.0 422.0" fill="none" stroke="#2563eb" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" marker-end="url(#arw-user)"/>
+<path d="M 170.0 388.0 L 170.0 422.0" fill="none" stroke="#eff6ff" stroke-width="1.4" stroke-linecap="round" opacity=".95" class="flow"/>
+<g class="node"><rect class="box" x="65.0" y="422.0" width="210.0" height="56.0" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="1.6" filter="url(#soft)"/>
+<text x="170.0" y="445.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1d4ed8">text → 打印到屏幕</text>
+<text x="170.0" y="463.8" text-anchor="middle" font-size="12.5" font-weight="400" fill="#475569">用户看到回答</text>
+</g>
+<rect x="153.1" y="402.2" width="33.8" height="19.6" rx="5" fill="#ffffff" fill-opacity="0.92" stroke="none"/><text x="170.0" y="415.9" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1d4ed8" class="mono">text</text>
+<marker id="arw-fs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#059669"/></marker>
+<path d="M 500.0 388.0 L 500.0 422.0" fill="none" stroke="#059669" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" marker-end="url(#arw-fs)"/>
+<path d="M 500.0 388.0 L 500.0 422.0" fill="none" stroke="#ecfdf5" stroke-width="1.4" stroke-linecap="round" opacity=".95" class="flow"/>
+<g class="node"><rect class="box" x="395.0" y="422.0" width="210.0" height="56.0" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="1.6" filter="url(#soft)"/>
+<text x="500.0" y="445.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="#047857">tool_use → run_tool</text>
+<text x="500.0" y="463.8" text-anchor="middle" font-size="12.5" font-weight="400" fill="#475569">真去动硬盘</text>
+</g>
+<rect x="470.2" y="402.2" width="59.5" height="19.6" rx="5" fill="#ffffff" fill-opacity="0.92" stroke="none"/><text x="500.0" y="415.9" text-anchor="middle" font-size="11.5" font-weight="700" fill="#047857" class="mono">tool_use</text>
+<marker id="arw-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#cbd5e1"/></marker>
+<path d="M 830.0 388.0 L 830.0 422.0" fill="none" stroke="#cbd5e1" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" marker-end="url(#arw-muted)"/>
+<g class="node"><rect class="box" x="725.0" y="422.0" width="210.0" height="56.0" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.6" filter="url(#soft)"/>
+<text x="830.0" y="445.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748b">其它类型 → 忽略</text>
+<text x="830.0" y="463.8" text-anchor="middle" font-size="12.5" font-weight="400" fill="#475569">不认识，跳过</text>
+</g>
+<rect x="814.5" y="402.2" width="31.0" height="19.6" rx="5" fill="#ffffff" fill-opacity="0.92" stroke="none"/><text x="830.0" y="415.9" text-anchor="middle" font-size="11.5" font-weight="700" fill="#334155" class="mono">其它</text>
+<rect x="50.0" y="56.0" width="250.0" height="140.0" rx="12" fill="#fffbeb" stroke="#d97706" stroke-width="1.3" stroke-dasharray="5 5" fill-opacity="0.5"/>
+<circle cx="64.0" cy="76.5" r="3.2" fill="#d97706"/>
+<text x="74.0" y="81.0" font-size="12.5" font-weight="700" fill="#b45309">一句话记住</text>
+<text x="68.0" y="106.0" text-anchor="start" font-size="12.5" font-weight="400" fill="#b45309" opacity="1.00">列表里出现</text>
+<text x="68.0" y="126.0" text-anchor="start" font-size="12.5" font-weight="600" fill="#b45309" opacity="1.00" class="mono">type == "tool_use"</text>
+<text x="68.0" y="148.0" text-anchor="start" font-size="12.5" font-weight="400" fill="#b45309" opacity="1.00">就是要干活；一个都没有，</text>
+<text x="68.0" y="170.0" text-anchor="start" font-size="12.5" font-weight="400" fill="#b45309" opacity="1.00">就是纯聊天，停。</text>
+<rect x="700.0" y="56.0" width="250.0" height="140.0" rx="12" fill="#fef2f2" stroke="#dc2626" stroke-width="1.3" stroke-dasharray="5 5" fill-opacity="0.5"/>
+<circle cx="714.0" cy="76.5" r="3.2" fill="#dc2626"/>
+<text x="724.0" y="81.0" font-size="12.5" font-weight="700" fill="#b91c1c">一个容易漏的点</text>
+<text x="718.0" y="106.0" text-anchor="start" font-size="12.0" font-weight="400" fill="#b91c1c" opacity="1.00">text 和 tool_use 可以</text>
+<text x="718.0" y="126.0" text-anchor="start" font-size="12.0" font-weight="400" fill="#b91c1c" opacity="1.00">同时存在于同一个列表：</text>
+<text x="718.0" y="148.0" text-anchor="start" font-size="12.0" font-weight="400" fill="#b91c1c" opacity="1.00">先打印，再去干活 ——</text>
+<text x="718.0" y="170.0" text-anchor="start" font-size="12.0" font-weight="400" fill="#b91c1c" opacity="1.00">两者不互斥。</text>
+</svg>

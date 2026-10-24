@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1010 810" width="1010" height="810" role="img" aria-label="全流程泳道图：一次提问的完整来回" style="background:#ffffff;max-width:100%;height:auto">
+<title>全流程泳道图：一次提问的完整来回</title><desc>你 → 程序 → AI → 文件系统，一次提问怎么来回走完。</desc>
+<style>
+text { font-family: -apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif; fill: #0f172a; }
+.mono { font-family: ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace; }
+.node rect.box, .node ellipse, .node polygon { filter: url(#soft); }
+.flow { stroke-dasharray: 4 16; animation: flow 1.1s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -20; } }
+@media (prefers-reduced-motion: reduce) {
+  .flow { animation: none; }
+}
+</style>
+<defs>
+<pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1.4" cy="1.4" r="1.05" fill="#e2e8f0"/></pattern>
+<filter id="soft" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.9" flood-color="#0f172a" flood-opacity="0.10"/></filter>
+</defs><rect width="1010" height="810" fill="#ffffff"/><rect width="1010" height="810" fill="url(#dots)"/>
+<g class="node"><rect class="box" x="14.0" y="56.0" width="152.0" height="44.0" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="1.6" filter="url(#soft)"/>
+<text x="90.0" y="82.7" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1d4ed8">你</text>
+</g>
+<line x1="90.0" y1="100.0" x2="90.0" y2="680.0" stroke="#2563eb" stroke-width="1.4" stroke-dasharray="4 6" opacity=".45"/>
+<g class="node"><rect class="box" x="244.0" y="56.0" width="152.0" height="44.0" rx="12" fill="#ecfeff" stroke="#0891b2" stroke-width="1.6" filter="url(#soft)"/>
+<text x="320.0" y="82.7" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0e7490">程序</text>
+</g>
+<line x1="320.0" y1="100.0" x2="320.0" y2="680.0" stroke="#0891b2" stroke-width="1.4" stroke-dasharray="4 6" opacity=".45"/>
+<g class="node"><rect class="box" x="544.0" y="56.0" width="152.0" height="44.0" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="1.6" filter="url(#soft)"/>
+<text x="620.0" y="82.7" text-anchor="middle" font-size="13.5" font-weight="600" fill="#047857">文件系统</text>
+</g>
+<line x1="620.0" y1="100.0" x2="620.0" y2="680.0" stroke="#059669" stroke-width="1.4" stroke-dasharray="4 6" opacity=".45"/>
+<g class="node"><rect class="box" x="804.0" y="56.0" width="152.0" height="44.0" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.6" filter="url(#soft)"/>
+<text x="880.0" y="82.7" text-anchor="middle" font-size="13.5" font-weight="600" fill="#6d28d9">AI</text>
+</g>
+<line x1="880.0" y1="100.0" x2="880.0" y2="680.0" stroke="#7c3aed" stroke-width="1.4" stroke-dasharray="4 6" opacity=".45"/>
+<marker id="arw-user" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/></marker>
+<path d="M 90.0 152.0 L 320.0 152.0" fill="none" stroke="#2563eb" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" marker-end="url(#arw-user)"/>
+<path d="M 90.0 152.0 L 320.0 152.0" fill="none" stroke="#eff6ff" stroke-width="1.4" stroke-linecap="round" opacity=".95" class="flow"/>
+<circle cx="112.0" cy="137.0" r="10" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/><text x="112.0" y="140.2" text-anchor="middle" font-size="10" font-weight="700" fill="#1d4ed8">1</text>
+<rect x="128.0" y="127.2" width="71.9" height="19.6" rx="5" fill="#ffffff" fill-opacity="0.92" stroke="none"/><text x="132.0" y="140.9" text-anchor="start" font-size="11.5" font-weight="500" fill="#1d4ed8">有什么文件?</text>
+<g class="node"><rect class="box" x="216.0" y="186.0" width="208.0" height="34.0" rx="12" fill="#ecfeff" stroke="#0891b2" stroke-width="1.6" filter="url(#soft)"/>
+<text x="320.0" y="206.8" text-anchor="middle" font-size="11.0" font-weight="400" fill="#475569">messages += user</text>
+</g>
+<marker id="arw-proc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#0891b2"/></marker>
+<path d="M 320.0 252.0 L 880.0 252.0" fill="none" stroke="#0891b2" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" marker-end="url(#arw-proc)"/>
+<path d="M 320.0 252.0 L 880.0 252.0" fill="none" stroke="#ecfeff" stroke-width="1.4" stroke-linecap="round" opacity=".95" class="flow"/>
+<circle cx="342.0" cy="237.0" r="10" fill="#ffffff" stroke="#0891b2" stroke-width="1.6"/><text x="342.0" y="240.2" text-anchor="middle" font-size="10" font-weight="700" fill="#0e7490">2</text>
+<rect x="358.0" y="227.2" width="153.8" height="19.6" rx="5" fill="#ffffff" fill-opacity="0.92" stroke="none"/><text x="362.0" y="240.9" text-anchor="start" font-size="11.5" font-weight="500" fill="#0e7490">请求：全部历史 + 工具菜单</text>
+<marker id="arw-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#7c3aed"/></marker>
+<path d="M 880.0 318.0 L 320.0 318.0" fill="none" stroke="#7c3aed" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" stroke-dasharray="6 5" marker-end="url(#arw-ai)"/>
+<circle cx="342.0" cy="303.0" r="10" fill="#ffffff" stroke="#7c3aed" stroke-width="1.6"/><text x="342.0" y="306.2" text-anchor="middle" font-size="10" font-weight="700" fill="#6d28d9">3</text>
+<rect x="358.0" y="293.2" width="143.2" height="19.6" rx="5" fill="#ffffff" fill-opacity="0.92" stroke="none"/><text x="362.0" y="306.9" text-anchor="start" font-size="11.5" font-weight="500" fill="#6d28d9">text + tool_use(glob)</text>
+<g class="node"><rect class="box" x="216.0" y="350.0" width="208.0" height="34.0" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="1.6" filter="url(#soft)"/>
+<text x="320.0" y="370.9" text-anchor="middle" font-size="11.0" font-weight="400" fill="#475569">⏺ 我先看看   ← 打印 text</text>
+</g>
+<marker id="arw-fs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#059669"/></marker>
+<path d="M 320.0 418.0 L 620.0 418.0" fill="none" stroke="#059669" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" marker-end="url(#arw-fs)"/>
+<path d="M 320.0 418.0 L 620.0 418.0" fill="none" stroke="#ecfdf5" stroke-width="1.4" stroke-linecap="round" opacity=".95" class="flow"/>
+<circle cx="342.0" cy="403.0" r="10" fill="#ffffff" stroke="#059669" stroke-width="1.6"/><text x="342.0" y="406.2" text-anchor="middle" font-size="10" font-weight="700" fill="#047857">4</text>
+<rect x="358.0" y="393.2" width="78.8" height="19.6" rx="5" fill="#ffffff" fill-opacity="0.92" stroke="none"/><text x="362.0" y="406.9" text-anchor="start" font-size="11.5" font-weight="500" fill="#047857">glob ./*.py</text>
+<path d="M 620.0 486.0 L 320.0 486.0" fill="none" stroke="#059669" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" stroke-dasharray="6 5" marker-end="url(#arw-fs)"/>
+<circle cx="342.0" cy="471.0" r="10" fill="#ffffff" stroke="#059669" stroke-width="1.6"/><text x="342.0" y="474.2" text-anchor="middle" font-size="10" font-weight="700" fill="#047857">5</text>
+<rect x="358.0" y="461.2" width="78.8" height="19.6" rx="5" fill="#ffffff" fill-opacity="0.92" stroke="none"/><text x="362.0" y="474.9" text-anchor="start" font-size="11.5" font-weight="500" fill="#047857">nanocode.py</text>
+<path d="M 320.0 548.0 L 880.0 548.0" fill="none" stroke="#0891b2" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" marker-end="url(#arw-proc)"/>
+<path d="M 320.0 548.0 L 880.0 548.0" fill="none" stroke="#ecfeff" stroke-width="1.4" stroke-linecap="round" opacity=".95" class="flow"/>
+<circle cx="342.0" cy="533.0" r="10" fill="#ffffff" stroke="#0891b2" stroke-width="1.6"/><text x="342.0" y="536.2" text-anchor="middle" font-size="10" font-weight="700" fill="#0e7490">6</text>
+<rect x="358.0" y="523.2" width="142.8" height="19.6" rx="5" fill="#ffffff" fill-opacity="0.92" stroke="none"/><text x="362.0" y="536.9" text-anchor="start" font-size="11.5" font-weight="500" fill="#0e7490">请求：带上 tool_result</text>
+<path d="M 880.0 614.0 L 320.0 614.0" fill="none" stroke="#7c3aed" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity="1.00" stroke-dasharray="6 5" marker-end="url(#arw-ai)"/>
+<circle cx="342.0" cy="599.0" r="10" fill="#ffffff" stroke="#7c3aed" stroke-width="1.6"/><text x="342.0" y="602.2" text-anchor="middle" font-size="10" font-weight="700" fill="#6d28d9">7</text>
+<rect x="358.0" y="589.2" width="114.7" height="19.6" rx="5" fill="#ffffff" fill-opacity="0.92" stroke="none"/><text x="362.0" y="602.9" text-anchor="start" font-size="11.5" font-weight="500" fill="#6d28d9">只有 text → break</text>
+<text x="60.0" y="730.0" text-anchor="start" font-size="12.0" font-weight="600" fill="#475569" opacity="1.00">整条链路里，AI 只做了 2 件事：</text>
+<text x="60.0" y="752.0" text-anchor="start" font-size="12.0" font-weight="600" fill="#475569" opacity="1.00">回 text、回 tool_use。</text>
+<text x="60.0" y="774.0" text-anchor="start" font-size="12.0" font-weight="600" fill="#475569" opacity="1.00">它一次都没碰过你的硬盘。</text>
+<rect x="400.0" y="690.0" width="610.0" height="104.0" rx="12" fill="#fef2f2" stroke="#dc2626" stroke-width="1.3" stroke-dasharray="5 5" fill-opacity="0.5"/>
+<circle cx="414.0" cy="710.5" r="3.2" fill="#dc2626"/>
+<text x="424.0" y="715.0" font-size="12.5" font-weight="700" fill="#b91c1c">两条分支都在内层 while 里</text>
+<text x="420.0" y="736.0" text-anchor="start" font-size="11.5" font-weight="400" fill="#b91c1c" opacity="1.00">有 tool_use → 回到「请求」再问一次；没有 tool_use → break 出内层。</text>
+<text x="420.0" y="760.0" text-anchor="start" font-size="11.5" font-weight="400" fill="#b91c1c" opacity="1.00">这一次就是「没有」，所以流程停在 ⑦。</text>
+</svg>
