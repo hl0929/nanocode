@@ -6,6 +6,8 @@
 >
 > 阅读建议：按顺序看，每节都能单独看懂。遇到陌生词先跳到 [术语对照表](#附录术语对照表) 查，那张表把每个技术词都翻成了日常说法。
 >
+> **HTML 版**：排版更好的单文件版本是 `docs/nanocode-explained.html`（内联 SVG、深色/浅色主题、全屏目录、代码高亮、点图放大、可打印）。由 `python docs/assets/build_html.py` 从本文自动生成 —— 改内容只改这个 `.md`。
+>
 > **关于图**：13 张图都是手写的 **SVG**，放在 `docs/assets/`。统一设计：圆角卡片、语义配色（蓝=你、青=程序、紫=AI、绿=文件系统、红=坑），代码用等宽字体，数据流用流动虚线标出，并带 `prefers-reduced-motion` 保护。文本都是原生 `<text>`，GitHub / GitLab / VS Code / Typora 直接可看，不依赖任何插件。要改图：编辑 `docs/assets/figures.py` 里的坐标/文案，然后 `python docs/assets/figures.py` 重新生成；纯手改 `.svg` 也行。
 
 ---
