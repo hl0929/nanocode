@@ -4,7 +4,7 @@
     python docs/assets/build_html.py             # self-contained (SVG inlined)
     python docs/assets/build_html.py --external  # keep <img src="assets/..."> links
 
-Output: docs/nanocode-explained.html
+Output: docs/index.html
 
 The Markdown stays the single source of truth; this script only changes the
 presentation.  The HTML edition deliberately breaks away from the Markdown look:
@@ -33,7 +33,7 @@ from pygments.lexers import JsonLexer, MarkdownLexer, PythonLexer, TextLexer, ge
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)                      # docs/
 SRC = os.path.join(ROOT, "nanocode-explained.md")
-OUT = os.path.join(ROOT, "nanocode-explained.html")
+OUT = os.path.join(ROOT, "index.html")
 
 # ---------------------------------------------------------------------------
 # figure captions (better than the terse alt="" in the Markdown)

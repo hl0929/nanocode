@@ -33,7 +33,7 @@ python docs/assets/figures.py
 
 ## 生成 HTML 版
 
-`docs/nanocode-explained.html` 是从 Markdown 自动生成的，不要手改：
+`docs/index.html` 是从 Markdown 自动生成的，不要手改：
 
 ```bash
 python docs/assets/build_html.py              # 默认：SVG 内联，单文件可离线/可发邮件
