@@ -3,9 +3,9 @@
 
 import glob as globlib, json, os, re, subprocess, urllib.request
 
-OPENROUTER_KEY = os.environ.get("OPENROUTER_API_KEY")
-API_URL = "https://openrouter.ai/api/v1/messages" if OPENROUTER_KEY else "https://api.anthropic.com/v1/messages"
-MODEL = os.environ.get("MODEL", "anthropic/claude-opus-4.5" if OPENROUTER_KEY else "claude-opus-4-5")
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY")
+API_URL = "https://api.deepseek.com/anthropic/v1/messages"
+MODEL = "deepseek-flash"
 
 # ANSI colors
 RESET, BOLD, DIM = "\033[0m", "\033[1m", "\033[2m"
@@ -181,8 +181,7 @@ def call_api(messages, system_prompt):
         ).encode(),
         headers={
             "Content-Type": "application/json",
-            "anthropic-version": "2023-06-01",
-            **({"Authorization": f"Bearer {OPENROUTER_KEY}"} if OPENROUTER_KEY else {"x-api-key": os.environ.get("ANTHROPIC_API_KEY", "")}),
+            "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
         },
     )
     response = urllib.request.urlopen(request)
@@ -197,8 +196,9 @@ def render_markdown(text):
     return re.sub(r"\*\*(.+?)\*\*", f"{BOLD}\\1{RESET}", text)
 
 
+
 def main():
-    print(f"{BOLD}nanocode{RESET} | {DIM}{MODEL} ({'OpenRouter' if OPENROUTER_KEY else 'Anthropic'}) | {os.getcwd()}{RESET}\n")
+    print(f"{BOLD}nanocode{RESET} | {DIM}{MODEL} ({'DeepSeek' if DEEPSEEK_API_KEY else 'Anthropic'}) | {os.getcwd()}{RESET}\n")
     messages = []
     system_prompt = f"Concise coding assistant. cwd: {os.getcwd()}"
 
@@ -221,14 +221,17 @@ def main():
             # agentic loop: keep calling API until no more tool calls
             while True:
                 response = call_api(messages, system_prompt)
+                print("response:", json.dumps(response["content"], ensure_ascii=True, indent=4))
                 content_blocks = response.get("content", [])
                 tool_results = []
 
                 for block in content_blocks:
                     if block["type"] == "text":
+                        print("-" + " text " + "-")
                         print(f"\n{CYAN}⏺{RESET} {render_markdown(block['text'])}")
 
                     if block["type"] == "tool_use":
+                        print("-" + " tool user " + "-")
                         tool_name = block["name"]
                         tool_args = block["input"]
                         arg_preview = str(list(tool_args.values())[0])[:50]
